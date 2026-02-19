@@ -1,0 +1,157 @@
+units:
+  kx: u
+  ky: u
+  px: u + 4
+  py: u + 4
+points:
+  rotate: -6
+  zones:
+    matrix:
+      anchor:
+        shift: [100, -100]
+      key:
+        padding: 1ky
+        spread: 1kx
+      columns:
+        pinky:
+          key:
+            column_net: P1
+            mirror.column_net: P0
+          rows.mod.skip: true
+        ring:
+          key:
+            column_net: P21
+            mirror.column_net: P2
+            stagger: 5
+        middle:
+          key:
+            column_net: P20
+            mirror.column_net: P3
+            stagger: 5
+        index:
+          key:
+            column_net: P19
+            mirror.column_net: P4
+            stagger: -5
+        inner:
+          rows.mod.skip: true
+          key: 
+            mirror.column_net: P5
+            column_net: P18
+            stagger: -5
+      rows:
+        mod:
+          row_net: P10
+          mirror.row_net: P9
+        bottom:
+          row_net: P16
+          mirror.row_net: P8
+        home:
+          row_net: P14
+          mirror.row_net: P7
+        top:
+          row_net: P15
+          mirror.row_net: P6
+    thumbs:
+      key: 
+        padding: 1ky
+        spread: 1.1kx
+        splay: -10
+      columns:
+        main:
+          key:
+            column_net: P19
+            mirror.column_net: P4
+        layer:
+          key:
+            stagger: -3
+            column_net: P18
+            mirror.column_net: P5
+      rows:
+        main:
+          row_net: P10
+          mirror.row_net: P9
+      anchor:
+        ref: matrix_inner_mod
+        shift: [0.05kx, -0.1ky]
+  mirror: &mirror
+    ref: matrix_inner_mod
+    distance: 5kx
+outlines:
+  raw:
+    - what: rectangle
+      where: true
+      size: [px, py]
+  keys:
+    - what: rectangle
+      where: true
+      size: [kx-0.5,ky-0.5]
+  board:
+    - what: polygon
+      operation: stack
+      points:
+        - ref: matrix_middle_top
+          shift: [-0.5px,0.5py]
+        - ref: mirror_matrix_middle_top
+          shift: [-0.5px,0.5py]
+        - ref: mirror_matrix_pinky_top
+          shift: [-0.5px, 0.5py]
+        - ref: mirror_matrix_pinky_bottom
+          shift: [-0.5px, -0.5py]
+        - ref: mirror_matrix_ring_mod
+          shift: [-0.5px, -0.5py]
+        - ref: mirror_thumbs_layer_main
+          shift: [0.5px,-0.5py]
+        - ref: thumbs_layer_main
+          shift: [0.5px,-0.5py]
+        - ref: matrix_ring_mod
+          shift: [-0.5px,-0.5py]
+        - ref: matrix_pinky_bottom
+          shift: [-0.5px, -0.5py]
+        - ref: matrix_pinky_top
+          shift: [-0.5px, 0.5py]
+      fillet: 2
+  combo:
+    - name: board
+    - operation: subtract
+      name: keys
+pcbs:
+  pcb:
+    footprints:
+      cherry_hotswap:
+        what: mx
+        where: true
+        params:
+          keycaps: true
+          reverse: false
+          hotswap: true
+          from: "{{column_net}}"
+          to: "{{colrow}}"
+      diodes:
+        what: diode
+        where: true
+        params:
+          from: "{{colrow}}"
+          to: "{{row_net}}"
+        adjust:
+          shift: [0, -5]
+      promicro:
+        what: promicro
+        params:
+          orientation: "down"
+        where:
+          ref.aggregate.parts: [matrix_inner_top, mirror_matrix_inner_top]
+          shift: [0, 5]
+          rotate: -90
+      reset:
+        what: button
+        params:
+          from: GND
+          to: RST
+        where:
+          ref.aggregate.parts: [matrix_inner_home, mirror_matrix_inner_home]
+          shift: [0, 4]
+          rotate: -90
+    outlines:
+      main:
+        outline: board
