@@ -78,10 +78,6 @@ points:
     ref: matrix_inner_mod
     distance: 5kx
 outlines:
-  raw:
-    - what: rectangle
-      where: true
-      size: [px, py]
   keys:
     - what: rectangle
       where: true
@@ -152,6 +148,46 @@ pcbs:
           ref.aggregate.parts: [matrix_inner_home, mirror_matrix_inner_home]
           shift: [0, 4]
           rotate: -90
+      holeTopLeft:
+        what: mountinghole
+        where:
+          ref: [matrix_pinky_top]
+          shift: [0.5kx, -0.2ky]
+      holeTopLeftInner:
+        what: mountinghole
+        where:
+          ref: [matrix_inner_top]
+          shift: [-0.5kx, -0.1ky]
+      holeBottomLeft:
+        what: mountinghole
+        where:
+          ref: [matrix_pinky_bottom]
+          shift: [0.5kx, -0.2ky]
+      holeBottomLeftInner:
+        what: mountinghole
+        where:
+          ref: [matrix_index_mod]
+          shift: [0.5kx, -0.4ky]
+      holeTopRight:
+        what: mountinghole
+        where:
+          ref: [mirror_matrix_pinky_top]
+          shift: [0.5kx, -0.2ky]
+      holeTopRightInner:
+        what: mountinghole
+        where:
+          ref: [mirror_matrix_inner_top]
+          shift: [-0.5kx, -0.1ky]
+      holeBottomRight:
+        what: mountinghole
+        where:
+          ref: [mirror_matrix_pinky_bottom]
+          shift: [0.5kx, -0.2ky]
+      holeBottomRightInner:
+        what: mountinghole
+        where:
+          ref: [mirror_matrix_index_mod]
+          shift: [0.5kx, -0.4ky]
     outlines:
       main:
         outline: board
